@@ -57,10 +57,15 @@
   13) Install newick on the instance: 
   
    git clone git://github.com/tjunier/newick_utils.git
+   
    cd newick_utils/
+   
    autoreconf -fi
+   
    ./configure
+   
    make
+   
    sudo make install
    
    
