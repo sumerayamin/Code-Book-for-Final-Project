@@ -70,7 +70,22 @@
    
    # C) Create a Phylogenic Tree: 
      
-    13. Run the IQ-TREE command to create a phylogenetic tree using default parameters and arbitrary rooting
+   13. Run the IQ-TREE command to create a phylogenetic tree using default parameters and arbitrary rooting
     
     iqtree -s mygene.aligned.r50.fa -nt 2
      
+   14) Create a file of the unrooted tree
+   
+    nw_display mygene.aligned.r50.fa.treefile
+    
+   15) Create an image of unrooted tree
+   
+    gotree draw png -w 1000 -i mygene.aligned.r50.fa.treefile  -r -o  mygene.aligned.r50.fa.png
+    
+   16) Create a midpoint rooted tree
+   
+    gotree reroot midpoint -i mygene.aligned.r50.fa.treefile -o mygene.aligned.r50.fa.midpoint.treefile
+    
+   17) Root the Optimal phylogeny 
+   
+    nw_reroot mygene.aligned.r50.fa.treefile Drosophila_melanogaster_Disks_large_1_DLG1_P31007 Nematostella_vectensis_disks_large_homolog_1_XP_001638123.2 Pocillopora_damicornis_A0A3M6TL78 Homo_sapiens_Disks_large_homolog_3_DLG3_Q92796 Homo_sapiens_Disks_large_homolog_4_DLG4_P78352 Homo_sapiens_Disks_large_homolog_1_DLG1_Q12959 Homo_sapiens_Disks_large_homolog_2_DLG2_Q15700 >mygene.aligned.r50.fa.MendozaRoot.treefile
