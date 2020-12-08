@@ -1,5 +1,7 @@
 # Code-Book-for-Final-Project
-#A) Obtain putative homologs for the protein of interest.
+
+# A) Obtain putative homologs for the protein of interest.
+
 1. Create a directory for the BLAST database:
 
   mkdir ~/data/blast
@@ -36,7 +38,7 @@
   
    seqkit grep --pattern-file XP_001618798.blastp.detail.filtered.out ~/data/blast/allprotein.fas > XP_001618798.blastp.detail.filtered.fas
    
-  #B) Perform a global multiple sequence alignment on Protein of interest putative homologs.
+  # B) Perform a global multiple sequence alignment on Protein of interest putative homologs.
    
  10. Perform a global multiple sequence alignment in muscle
   
