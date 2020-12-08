@@ -1,5 +1,5 @@
 # Code-Book-for-Final-Project
-A) Obtain putative homologs for the protein of interest.
+#A) Obtain putative homologs for the protein of interest.
 1. Create a directory for the BLAST database:
 
   mkdir ~/data/blast
@@ -36,6 +36,8 @@ A) Obtain putative homologs for the protein of interest.
   
    seqkit grep --pattern-file XP_001618798.blastp.detail.filtered.out ~/data/blast/allprotein.fas > XP_001618798.blastp.detail.filtered.fas
    
+  #B) Perform a global multiple sequence alignment on Protein of interest putative homologs.
+   
  10. Perform a global multiple sequence alignment in muscle
   
    muscle -in XP_001618798.blastp.detail.filtered.fas -out XP_001618798.blastp.detail.filtered.aligned.fas
@@ -47,4 +49,5 @@ A) Obtain putative homologs for the protein of interest.
  12. Remove any column that contains greater than 50% gapped residues using t_coffee
  
   t_coffee -other_pg seq_reformat -in XP_001618798.blastp.detail.filtered.aligned.fas -action +rm_gap 50 -out allhomologs.aligned.r50.fa
-	
+
+
