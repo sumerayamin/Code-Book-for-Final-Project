@@ -38,7 +38,7 @@
   
    seqkit grep --pattern-file XP_001618798.blastp.detail.filtered.out ~/data/blast/allprotein.fas > XP_001618798.blastp.detail.filtered.fas
    
-  # B) Perform a global multiple sequence alignment on Protein of interest putative homologs.
+  # B) Perform a global multiple sequence alignment on Protein of interest Putative Homologs.
    
  10. Perform a global multiple sequence alignment in muscle
   
@@ -51,5 +51,16 @@
  12. Remove any column that contains greater than 50% gapped residues using t_coffee
  
   t_coffee -other_pg seq_reformat -in XP_001618798.blastp.detail.filtered.aligned.fas -action +rm_gap 50 -out allhomologs.aligned.r50.fa
-
-
+  
+  # C) Install Newick Utilities software from GitHub
+  
+  13) Install newick on the instance: 
+  
+   git clone git://github.com/tjunier/newick_utils.git
+   cd newick_utils/
+   autoreconf -fi
+   ./configure
+   make
+   sudo make install
+   
+   
