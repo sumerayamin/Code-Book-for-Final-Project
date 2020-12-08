@@ -52,9 +52,9 @@
  
   t_coffee -other_pg seq_reformat -in XP_001618798.blastp.detail.filtered.aligned.fas -action +rm_gap 50 -out allhomologs.aligned.r50.fa
   
-  # C) Install Newick Utilities software from GitHub
+  # Install Newick Utilities software from GitHub
   
-  13) Install newick on the instance: 
+   Install newick on the instance: 
   
    git clone git://github.com/tjunier/newick_utils.git
    
@@ -68,4 +68,9 @@
    
    sudo make install
    
-   
+   # C) Create a Phylogenic Tree: 
+     
+    13. Run the IQ-TREE command to create a phylogenetic tree using default parameters and arbitrary rooting
+    
+    iqtree -s mygene.aligned.r50.fa -nt 2
+     
