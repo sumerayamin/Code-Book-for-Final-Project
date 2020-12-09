@@ -12,7 +12,7 @@
 	
   3) Put all the protein sequences into a single file.
 
-          cat  proteomes/* > ~/data/blast/allprotein.fas
+         cat  proteomes/* > ~/data/blast/allprotein.fas
 	
   4) Build a BLAST database with proteomes 
  
@@ -66,7 +66,7 @@
    
       make
    
-   sudo make install
+     sudo make install
    
    # C) Create a Phylogenic Tree: 
      
@@ -146,4 +146,68 @@
  
     java -jar ~/tools/Notung-3.0-beta/Notung-3.0-beta.jar -b mybatch.txt --root --speciestag prefix  --savepng --treestats --events  --phylogenomics 
   
- 30)
+# E) Reconciliation Based Rearrangement and Topology Tests
+  
+ 30) Reconcile and re-arrange your tree
+ 
+    java -jar ~/tools/Notung-3.0-beta/Notung-3.0-beta.jar -b mybatch.txt --rearrange --speciestag prefix  --savepng --treestats --events  --outputdir zoreconcileRearrange --edgeweights name --threshold 90 
+ 
+ 31) Visualize the re-arranged gene tree within the species tree
+ 
+    python ~/tools/recPhyloXML/python/NOTUNGtoRecPhyloXML.py -g mygene.aligned.r50.ufboot.Midpointrrot.treefile.rearrange.0 --include.species
+    
+ 32) Change the format from Notung to Newick
+ 
+    java -jar ~/tools/Notung-3.0-beta/Notung-3.0-beta.jar -g zoreconcileRearrange/mygene.aligned.r50.ufboot.MendozaRoot.treefile.rearrange.0   -s species.tre --reconcile --speciestag prefix  --treeoutput newick --nolosses
+    
+ 33) Unroot the Notung re-arranged tree 
+  
+         gotree unroot -i mygene.aligned.r50.ufboot.Midpointroot.treefile.rearrange.0.reconciled -o mygene.aligned.r50.ufboot.unrooted.treefile.rearrange
+	 
+ 34)  Put the two trees into a single file
+ 
+     cat mygene.aligned.r50.ufboot.treefile mygene.aligned.r50.ufboot.unrooted.treefile.rearrange > mygene.aligned.r50.alternativetrees
+     
+ 35) Run the topology test in IQ-TREE 
+ 
+    iqtree -s mygene.aligned.r50.fa -z mygene.aligned.r50.alternativetrees -au -zb 10000 --prefix ZO1_altTrees -m LG+F+R5 -nt 2 -te mygene.aligned.r50.ufboot.treefile
+    
+# F) Domain Prediction using Interproscan
+
+ 36) A one time installation of perl module
+ 
+         sudo cpan LWP::Protocol::https
+ 
+ 37) Installation of the DataMash utility
+ 
+          cd ~/tools
+          wget http://ftp.gnu.org/gnu/datamash/datamash-1.3.tar.gz
+          tar -xzf datamash-1.3.tar.gz  
+          cd datamash-1.3
+          ./configure
+          make
+          make check
+          sudo make install 
+
+ 38) Iprscan5 is a perl script that will send the sequences to the inteproscan servers to be analyzed. It may take up to 15 minutes to finish analyzing the sequences.
+ 
+    iprscan5   --email sumera.aymin@stonybrook.edu  --multifasta --useSeqId --sequence   mygene.aligned.blastp.detail.filtered.ren.fas
+ 
+ 39) After getting the domains identified for each gene use the cat command to concatenate them all into a single file
+  
+    cat *.tsv.txt > mygene.domains.all.tsv
+  
+ 40) To filter domains defined by the Pfam database
+ 
+    grep Pfam mygene.domains.all.tsv >  mygene.domains.pfam.tsv
+    
+ 41) Fix up the output by re-arranging the interproscan output
+  
+    awk 'BEGIN{FS="\t"} {print $1"\t"$3"\t"$7"@"$8"@"$5}' mygenefamily.domains.pfam.tsv | datamash -sW --group=1,2 collapse 3 | sed 's/,/\t/g' | sed 's/@/,/g' > mygenefamily.domains.pfam.evol.tsv
+    
+  After getting the results go to https://www.evolgenius.info/evolview/
+
+  Upload the tree by clicking on the File folder in the upper left hand corner. Give the tree a name. The upload button is at the bottom of the box that appears. After clicking submit, tree should be displayed. 
+
+ 
+ 
