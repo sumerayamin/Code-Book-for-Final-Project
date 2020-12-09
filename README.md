@@ -89,3 +89,61 @@
    17) Root the Optimal phylogeny 
    
     nw_reroot mygene.aligned.r50.fa.treefile Drosophila_melanogaster_Disks_large_1_DLG1_P31007 Nematostella_vectensis_disks_large_homolog_1_XP_001638123.2 Pocillopora_damicornis_A0A3M6TL78 Homo_sapiens_Disks_large_homolog_3_DLG3_Q92796 Homo_sapiens_Disks_large_homolog_4_DLG4_P78352 Homo_sapiens_Disks_large_homolog_1_DLG1_Q12959 Homo_sapiens_Disks_large_homolog_2_DLG2_Q15700 >mygene.aligned.r50.fa.MendozaRoot.treefile
+
+# D) Evaluating Node Support using the Bootstrap
+
+ 18) Commad to obtain the Bootstrap support
+ 
+  iqtree -s mygene.aligned.r50.fa -bb 1000 -nt 2 --prefix mygene.r50.ufboot
+  
+ 19) Look at the bootstrap support
+
+   nw_display mygene.r50.ufboot.Midpointroot.treefile 
+
+ 20) Produce a graphic to see the bootstrap values
+
+ nw_display -s mygene.alligned.r50.ufboot.Midpointroot.treefile  -w 1000 -b 'opacity:0' > mygene.alligned.r50.ufboot.Midpointroot.svg
+ 
+ Using Notung
+ 
+  java -jar ~/tools/Notung-3.0-beta/Notung-3.0-beta.jar --help 
+ 
+ 21) Reconcile the toy gene tree and toy species tree in notung
+
+  java -jar ~/tools/Notung-3.0-beta/Notung-3.0-beta.jar -b toybatch.txt --reconcile --speciestag prefix --savepng --treestats --events --homologtabletabs -- phylogenomics 
+
+ 22) Run the following once to install a missing component
+
+  sudo easy_install -U ete3 
+
+ 23) Now, generate a RecPhyloXML object by running the following command:
+
+  python ~/tools/recPhyloXML/python/NOTUNGtoRecPhyloXML.py -g toygenetree.tre.reconciled --include.species
+  
+  # Reconciling gene family with the species tree
+  
+ 24) The species tree
+ 
+ (((Homo_sapiens,Strongylocentrotus_purpuratus)Deuterostomia,Drosophila_melanogaster)Bilateria,(Nematostella_vectensis,Pocillopora_damicornis)Cnidaria)Eumetazoa;
+
+25) Make a batch file for Notung in nano
+
+  nano mybatch.txt
+ 
+ 26) Perform the reconciliation:
+ 
+  java -jar ~/tools/Notung-3.0-beta/Notung-3.0-beta.jar -b mybatch.txt --reconcile --speciestag prefix  --savepng --treestats --events  --phylogenomics 
+  
+ 27) Generate a RecPhyloXML object to view the gene-within-species tree
+ 
+  python ~/tools/recPhyloXML/python/NOTUNGtoRecPhyloXML.py -g mygene.aligned.r50.ufboot.Midpointroot.treefile.reconciled --include.species
+  
+ 28) Create a visual aid that includes the internal node names
+   
+   nw_display  species.tre 
+   
+ 29) In notung, replace the --reconcile command with the --root flag to re-root the tree during using the reconciliation process.
+ 
+  java -jar ~/tools/Notung-3.0-beta/Notung-3.0-beta.jar -b mybatch.txt --root --speciestag prefix  --savepng --treestats --events  --phylogenomics 
+  
+ 30)
